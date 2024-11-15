@@ -1,11 +1,13 @@
 package com.google.springboot.controller;
 
-import com.google.springboot.config.RedisConfig;
-import lombok.extern.slf4j.Slf4j;
+//import com.google.springboot.config.RedisConfig;
+import com.google.springboot.Application;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.data.redis.core.RedisTemplate;
+//import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -14,10 +16,11 @@ import pojo.Greeting;
 
 import java.util.concurrent.atomic.AtomicLong;
 
-@Slf4j
 @RestController
 @RequestMapping("/mybatis")
 public class MybatisController {
+	private static final Logger log = LoggerFactory.getLogger(MybatisController.class);
+
 
 
 	private static final String template = "Hello, %s!";
@@ -29,12 +32,12 @@ public class MybatisController {
 
 		log.info("success call /greeting,  result:{}",greeting);
 
-		ApplicationContext applicationContext = new AnnotationConfigApplicationContext(RedisConfig.class);
-		RedisConfig redisConfig = applicationContext.getBean(RedisConfig.class);
-		RedisTemplate redisTemplate = redisConfig.redisTemplate();
-		redisTemplate.opsForValue().set("key11","value11");
-		redisTemplate.opsForValue().set("key12","value12");
-		String value11 = (String) redisTemplate.opsForValue().get("key11");
+//		ApplicationContext applicationContext = new AnnotationConfigApplicationContext(RedisConfig.class);
+//		RedisConfig redisConfig = applicationContext.getBean(RedisConfig.class);
+//		RedisTemplate redisTemplate = redisConfig.redisTemplate();
+//		redisTemplate.opsForValue().set("key11","value11");
+//		redisTemplate.opsForValue().set("key12","value12");
+//		String value11 = (String) redisTemplate.opsForValue().get("key11");
 
 
 		return greeting;

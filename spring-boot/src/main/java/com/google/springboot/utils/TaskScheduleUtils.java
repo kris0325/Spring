@@ -1,7 +1,7 @@
 package com.google.springboot.utils;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
@@ -15,12 +15,9 @@ import java.util.concurrent.ScheduledFuture;
  * @date: 2021/08/20
  * @description: 周期任务工具类
  **/
-@Slf4j
 @Component
 public class TaskScheduleUtils {
-
-    @Autowired
-    private ThreadPoolTaskScheduler threadPoolTaskScheduler;
+    private static final Logger log = LoggerFactory.getLogger(TaskScheduleUtils.class);
 
     private static ConcurrentHashMap<String, ScheduledFuture<?>> future2task = new ConcurrentHashMap();
 
@@ -36,9 +33,11 @@ public class TaskScheduleUtils {
 
 
     public Boolean register(String key, Runnable task, String cron) {
+        ThreadPoolTaskScheduler taskScheduler = new ThreadPoolTaskScheduler();
+
         try {
             this.deleteTask(key);
-            ScheduledFuture<?> future = threadPoolTaskScheduler.schedule(task, new CronTrigger(cron));
+            ScheduledFuture<?> future = taskScheduler.schedule(task, new CronTrigger(cron));
             future2task.put(key, future);
             log.info("register success:{}", key);
             return true;
@@ -57,7 +56,7 @@ public class TaskScheduleUtils {
             }
             return true;
         } catch (Exception e) {
-            log.info("register fail:{}, error:{}", key, e);
+            log.info("register fail: {}, error: {}", key, e);
             return false;
         }
     }

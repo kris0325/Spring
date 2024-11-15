@@ -1,16 +1,22 @@
 package com.google.springboot;
 
-import lombok.extern.slf4j.Slf4j;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
+import org.springframework.retry.annotation.EnableRetry;
 
-@Slf4j
-@SpringBootApplication(exclude= {DataSourceAutoConfiguration.class})
+
+@SpringBootApplication
+@EnableRetry
 public class Application {
+    private static final Logger log = LoggerFactory.getLogger(Application.class);
 
-	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
-		log.info("*************************应用启动成功 服务名称:{}*********************", Application.class);
-	}
+
+    public static void main(String[] args) {
+        SpringApplication.run(Application.class, args);
+        System.out.println("Hello World!");
+        log.info("*************************应用启动成功 服务名称:{}*********************" + Application.class);
+    }
 }
